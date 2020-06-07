@@ -11,6 +11,7 @@ import java.io.IOException;
 public class Validity {
     public static boolean partyplace(String[] w,String[] list){
         //diff candidate with same party and cons are not allowed
+        //System.out.println(w.length);
         return !(w[w.length-3].equals(list[1]) && w[w.length-2].equals(list[2]));
         }
     public static boolean candidateparty(String[] w,String[] list){
@@ -23,14 +24,12 @@ public class Validity {
         String line;
         int valid=1;
         while((line=br.readLine())!=null){
+            //System.out.println(line);
             String[] w = line.split(" ",6);
+            //System.out.println(w[0]);
             //should check all lines whether new candidate list is valid
-            if(partyplace(w,list) && candidateparty(w,list))
-                valid=1;
-            else{
-                System.out.println("not valid entry");
-                return 0;
-        }
+            if(!(partyplace(w,list) && candidateparty(w,list)))
+                valid=0;
         }
         return valid;
         }
