@@ -1,1 +1,4 @@
 100 T M kochi cong AAA0000009
+101 Agni Pratap kochi cpm AAA0000007
+103 Rajan kochi cpi AAA0000005
+190 Sujith VI kannur cpm AAA0000002

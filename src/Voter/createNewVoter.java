@@ -24,7 +24,7 @@ class NewVoter{
         	throw new VoteEligibility("under 18 years of age !\nnot eligible for application");
 	}
 	public static void main(String[] args) throws IOException{
-		try(FileWriter out = new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\voter.txt")){
+		try(FileWriter out = new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\voter.txt",true)){
 			Scanner sc = new Scanner(System.in);
 			int count=0;
 			long uid;

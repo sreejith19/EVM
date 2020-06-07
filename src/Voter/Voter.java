@@ -17,25 +17,19 @@ public class Voter
     private String voter_id;
     private String name;
     private GregorianCalendar dob;
-    
-    public Voter()
-    {
-        setVoterId();           //voterid in file is updated even when db rejects the input uid (ie, when uid is repeated); a function to decrement this number back is requiredin such case
+    public Voter(){
+        setVoterId();
     }
-    
-    public Voter(long uid)      //not preferred due to potential errors ; it is suggested to use default constructor and call setter functions
-    {
+    public Voter(long uid){
         this();
         this.uid=uid;
     }
-    
     public Voter(long uid , String name ,GregorianCalendar dob)  //not preferred
     {
         this();
         setName(name);
         setDob(dob);
         setUid(uid);
-        setVoterId();
     }
     
     public void setName(String name)
@@ -54,21 +48,19 @@ public class Voter
     }
     
     private void setVoterId()       // similar update function required for the decrement in case of repetition of uid
-    {
+    { 
         int x;
         voter_id=getCounter();
-        System.out.println(voter_id);
+        System.out.println("voter id:"+voter_id);
         String s=voter_id;
-        char c[]=new char[s.length()];
-        for(int i=0;i<s.length();i++)
-            c[i]=s.charAt(i);
+        char c[]=s.toCharArray();
         int num=0;
         for(int i=3;i<10;i++)
         {
             num=num*10+c[i]-48;
         }
-        System.out.println(num);
         num=(num+1)%10000000;
+        System.out.println(num);
         if(num==0)
         {
             if(c[2]=='Z')       //all voterids are of the form "XXXDDDDDDD": X:Capital letter(A-Z) D:digits(0-9)
@@ -97,10 +89,11 @@ public class Voter
         for(int i=9;i>2;i--)
         {
             try{
-                c[i]=Integer.toString(num).charAt(9-i);
+                c[i] = String.valueOf(num).charAt(9-i); 
             }
             catch(StringIndexOutOfBoundsException e)
             {
+                System.out.println("out");
                 c[i]='0';
             }
         }
@@ -154,6 +147,12 @@ public class Voter
    {
        return voter_id;
    }
+    public static void main(String[] args){
+        Voter v1 = new Voter(100,"Tapan Manu",new GregorianCalendar(2000,03,20));
+        Voter v2 = new Voter(101,"S J",new GregorianCalendar(2000,02,01));
+        System.out.print("v1:"+v1.getVoterId());
+        System.out.print("v2:"+v2.getVoterId());
+    }
 }
 
 //if this does not work try including a demo class with main to create classfile; note: given class is also public 

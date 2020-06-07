@@ -54,7 +54,7 @@ class Ticket {
         	throw new CandidateEligibility("under 25 years of age !\nnot eligible for application");
 	}
 	public static void main(String[] args) {
-		try(FileWriter out = new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\candidate.txt")){
+		try(FileWriter out = new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\candidate.txt",true)){
 			Scanner sc = new Scanner(System.in);
 			int count=0;
 			long cid;
@@ -119,6 +119,4 @@ class Ticket {
 		}
 		
 	}
-
-
 }
