@@ -1,10 +1,7 @@
 /*
 Voter class
-*requires a function that decrements counter when db finds a repeated uid(voter not created)
 *create a file named "counter.txt" with initial counter value(AAA0000000) in the same folder, copy path below in functions setVoterId() and getCounter()
 */
-
-//Tapan's comment = counter working not incrementing...but randomly changing and no characters when getvoterid() called
 
 package src.Voter;
 import java.util.GregorianCalendar;
@@ -89,7 +86,7 @@ public class Voter
         for(int i=9;i>2;i--)
         {
             try{
-                c[i] = String.valueOf(num).charAt(9-i); 
+                c[i] = String.valueOf(num).charAt(i+Integer.toString(num).length()-10); 
             }
             catch(StringIndexOutOfBoundsException e)
             {
@@ -147,12 +144,12 @@ public class Voter
    {
        return voter_id;
    }
-    public static void main(String[] args){
+   /* public static void main(String[] args){
         Voter v1 = new Voter(100,"Tapan Manu",new GregorianCalendar(2000,03,20));
         Voter v2 = new Voter(101,"S J",new GregorianCalendar(2000,02,01));
         System.out.print("v1:"+v1.getVoterId());
         System.out.print("v2:"+v2.getVoterId());
-    }
+    }*/
 }
 
 //if this does not work try including a demo class with main to create classfile; note: given class is also public 

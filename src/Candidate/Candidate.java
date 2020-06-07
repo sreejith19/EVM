@@ -1,4 +1,3 @@
-
 package src.Candidate;
 import src.Voter.Voter;
 public class Candidate extends Voter{
