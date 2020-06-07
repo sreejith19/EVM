@@ -53,19 +53,16 @@ class Ticket {
         if(diff<25)
         	throw new CandidateEligibility("under 25 years of age !\nnot eligible for application");
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
 		try(FileWriter out = new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\candidate.txt",true)){
 			Scanner sc = new Scanner(System.in);
 			int count=0;
-			long cid;
+			long cid=0;
 			String vid,s,cons,party;
 			GregorianCalendar g;
 			while(count<=1){
 				//data should be read from aadhar database
-				System.out.println("Get the Candidate ID");
-				cid=sc.nextLong();
 				System.out.println("Get the Name");
-				sc.nextLine();//avoid error of sc skipping new line
 				s=sc.nextLine();
 				System.out.println("Get the VoterID");
 				vid = sc.nextLine();
@@ -73,14 +70,6 @@ class Ticket {
 				party=sc.nextLine();
 				System.out.println("Get the constituency");
                                 cons=sc.nextLine();
-                /*request for mechanism to check for valid application as 
-                     1. Same candidate cannot participate for two diff parties at two diff places
-                     2. No two candidates in same constituency under same party ticket
-                */     
-                                //same party and cons cannot appear more than once
-                                //otherwise party should give candidate change option
-
-				
 				try{
                                    String[] date;
 				  try{	
@@ -99,6 +88,16 @@ class Ticket {
                       count++;
                       continue;
                 }
+                try{
+                  BufferedReader br = new BufferedReader(
+                      new FileReader("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\Candidate\\"
+                              + "candidateid.txt"));
+                     cid = Long.parseLong(br.readLine());
+                     br.close();
+                }   
+                catch(IOException e){
+                    System.out.println("file not found error");
+                }
                 String[] strArray = new String[]{String.valueOf(cid),cons,party};
                 int validity = Validity.valid(strArray);
                 if(validity==1){
@@ -112,6 +111,15 @@ class Ticket {
                     System.out.println("invalid registration");
                 }
                 ++count;
+                }
+                try{
+                  FileWriter w = new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\Candidate\\"
+                              + "candidateid.txt");
+                     w.write(String.valueOf(cid+1));
+                     w.close();
+                }   
+                catch(IOException e){
+                    System.out.println("file not found error");
                 }
 		}
 		catch(IOException e){
