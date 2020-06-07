@@ -6,7 +6,7 @@ Voter class
 
 //Tapan's comment = counter working not incrementing...but randomly changing and no characters when getvoterid() called
 
-package Voter;
+package src.Voter;
 import java.util.GregorianCalendar;
 import java.io.*;
 
@@ -106,7 +106,7 @@ public class Voter
         }
         try
         {
-            FileWriter f=new FileWriter("counter.txt");      //substitute path of text file here
+            FileWriter f=new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\counter.txt");      //substitute path of text file here
                 f.write(c);
                 f.close();
         }
@@ -121,7 +121,7 @@ public class Voter
         char c[]=new char[10];
         try
         {
-            FileReader f=new FileReader("counter.txt");      //substitute path of text file here
+            FileReader f=new FileReader("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\counter.txt");      //substitute path of text file here
             for(int i=0;i<10;i++)
             {
                 c[i]=(char)(f.read());

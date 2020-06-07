@@ -1,4 +1,4 @@
-package Candidate;
+package src.Candidate;
 
 import java.util.Scanner;
 import java.io.FileWriter; 
@@ -8,10 +8,11 @@ import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 
+
 class IOn{
     public static String getDate(String searchid) throws IOException{
     	try{
-    	BufferedReader in = new BufferedReader(new FileReader("voter.txt"));
+    	BufferedReader in = new BufferedReader(new FileReader("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\voter.txt"));
     	int flag=0;
     	String line;
     	while((line=in.readLine())!=null && !(searchid.equals(null)))  
@@ -53,7 +54,7 @@ class Ticket {
         	throw new CandidateEligibility("under 25 years of age !\nnot eligible for application");
 	}
 	public static void main(String[] args) {
-		try(FileWriter out = new FileWriter("candidate.txt")){
+		try(FileWriter out = new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\candidate.txt")){
 			Scanner sc = new Scanner(System.in);
 			int count=0;
 			long cid;
@@ -71,14 +72,17 @@ class Ticket {
 				System.out.println("Get the party");
 				party=sc.nextLine();
 				System.out.println("Get the constituency");
+                                cons=sc.nextLine();
                 /*request for mechanism to check for valid application as 
                      1. Same candidate cannot participate for two diff parties at two diff places
                      2. No two candidates in same constituency under same party ticket
                 */     
+                                //same party and cons cannot appear more than once
+                                //otherwise party should give candidate change option
 
-				cons=sc.nextLine();
+				
 				try{
-                  String[] date;
+                                   String[] date;
 				  try{	
 				     date = IOn.getDate(vid).split("/",3);
 			         }
@@ -95,12 +99,20 @@ class Ticket {
                       count++;
                       continue;
                 }
+                String[] strArray = new String[]{String.valueOf(cid),cons,party};
+                int validity = Validity.valid(strArray);
+                if(validity==1){
                 Candidate cd = new Candidate(cid,vid,s,cons,party);
-				String output = cd.getCID()+ " " + s + " " + cons + " " + party + cd.vid();
+				String output = cd.getCID()+ " " + s + " " + cons + " " + party + " "+ cd.vid();
 				out.write(output);
 				out.write("\n");
-				++count;
+			
 			}
+                else{
+                    System.out.println("invalid registration");
+                }
+                ++count;
+                }
 		}
 		catch(IOException e){
 			System.out.println("The system has detected some failure!");

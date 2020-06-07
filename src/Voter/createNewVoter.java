@@ -1,4 +1,4 @@
-package Voter;
+package src.Voter;
 
 import java.io.IOException;
 import java.util.GregorianCalendar;
@@ -24,7 +24,7 @@ class NewVoter{
         	throw new VoteEligibility("under 18 years of age !\nnot eligible for application");
 	}
 	public static void main(String[] args) throws IOException{
-		try(FileWriter out = new FileWriter("voter.txt")){
+		try(FileWriter out = new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\voter.txt")){
 			Scanner sc = new Scanner(System.in);
 			int count=0;
 			long uid;
@@ -61,6 +61,7 @@ class NewVoter{
 		catch(IOException e){
 			System.out.println("The system has detected some failure!");
 		}
+          
 
 	}
 }
