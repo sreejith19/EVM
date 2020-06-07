@@ -53,6 +53,24 @@ class Ticket {
         if(diff<25)
         	throw new CandidateEligibility("under 25 years of age !\nnot eligible for application");
 	}
+        public static boolean isValidParty(String pname) throws IOException{
+            try{
+                //checking if party provided is registered party or not
+                BufferedReader br = new BufferedReader(
+                      new FileReader("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\"
+                              + "EVM\\src\\Party\\party.txt"));
+                String line ;
+                while((line=br.readLine())!=null){
+                    String name = line.split(" ",3)[1];
+                    if(pname.equals(name)) //registered party
+                        return true;
+                }
+            }
+            catch(IOException e){
+                System.out.println("error processing");
+            }
+            return false;
+        }
 	public static void main(String[] args) throws IOException{
 		try(FileWriter out = new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\candidate.txt",true)){
 			Scanner sc = new Scanner(System.in);
@@ -70,6 +88,11 @@ class Ticket {
 				party=sc.nextLine();
 				System.out.println("Get the constituency");
                                 cons=sc.nextLine();
+                                if(!isValidParty(party)){
+                                    System.out.println("unregistered party,\n application rejected");
+                                    count++;
+                                    continue;
+                                }
 				try{
                                    String[] date;
 				  try{	
