@@ -1,7 +1,6 @@
 
-package Candidate;
-import Voter.Voter;
-
+package src.Candidate;
+import src.Voter.Voter;
 public class Candidate extends Voter{
 	private long cid;
 	private String vid ;  //voter id of candidate
