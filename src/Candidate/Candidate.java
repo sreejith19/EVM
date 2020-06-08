@@ -18,6 +18,9 @@ public class Candidate extends Voter{
     public long getCID(){
     	return cid;
     }
+    public void incrCid(){
+        ++cid;
+    }
     public long getVotes(){
     	return votes;
     }

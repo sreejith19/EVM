@@ -17,10 +17,11 @@ class IOn{
     	String line;
     	while((line=in.readLine())!=null && !(searchid.equals(null)))  
            {  
-               String[] lsplit =  line.split(" ",4);
+               String[] lsplit =  line.split(" ",5);
+               //System.out.println(lsplit[4]);
                if(lsplit[0].equals(searchid)){
                	 flag=1;
-               	 return (lsplit[lsplit.length-1]);
+               	 return (lsplit[lsplit.length-2]);
                }
            }  
            if(flag==0){
@@ -78,16 +79,22 @@ class Ticket {
 			long cid=0;
 			String vid,s,cons,party;
 			GregorianCalendar g;
-			while(count<=1){
+			while(count<1){
 				//data should be read from aadhar database
+                                
 				System.out.println("Get the Name");
 				s=sc.nextLine();
 				System.out.println("Get the VoterID");
 				vid = sc.nextLine();
 				System.out.println("Get the party");
 				party=sc.nextLine();
+                                /*there are cases in which candidates appear in 
+                                constituencies other than they have voting id
+                                */
 				System.out.println("Get the constituency");
                                 cons=sc.nextLine();
+                                System.out.println("Get the candidate id");
+				cid=sc.nextLong();
                                 if(!isValidParty(party)){
                                     System.out.println("unregistered party,\n application rejected");
                                     count++;
@@ -95,8 +102,9 @@ class Ticket {
                                 }
 				try{
                                    String[] date;
-				  try{	
-				     date = IOn.getDate(vid).split("/",3);
+				  try{
+				     date = IOn.getDate(vid).split("/",4);
+                                     
 			         }
 			      catch(NullPointerException np){
                       System.out.println("No voter ID! Ineligible to apply");
@@ -111,7 +119,7 @@ class Ticket {
                       count++;
                       continue;
                 }
-                try{
+                /*try{
                   BufferedReader br = new BufferedReader(
                       new FileReader("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\Candidate\\"
                               + "candidateid.txt"));
@@ -121,6 +129,7 @@ class Ticket {
                 catch(IOException e){
                     System.out.println("file not found error");
                 }
+                */
                 String[] strArray = new String[]{String.valueOf(cid),cons,party};
                 int validity = Validity.valid(strArray);
                 if(validity==1){
@@ -134,8 +143,7 @@ class Ticket {
                     System.out.println("invalid registration");
                 }
                 ++count;
-                }
-                try{
+                /*try{
                   FileWriter w = new FileWriter("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\Candidate\\"
                               + "candidateid.txt");
                      w.write(String.valueOf(cid+1));
@@ -144,6 +152,8 @@ class Ticket {
                 catch(IOException e){
                     System.out.println("file not found error");
                 }
+                */
+                        }
 		}
 		catch(IOException e){
 			System.out.println("The system has detected some failure!");

@@ -28,7 +28,7 @@ class NewVoter{
 			Scanner sc = new Scanner(System.in);
 			int count=0;
 			long uid;
-			String s;
+			String s,c;
 			GregorianCalendar g ;
 			while(count<=1){
 				//data should be read from aadhar database
@@ -37,6 +37,8 @@ class NewVoter{
 				System.out.println("Get the Name");
 				sc.nextLine();//avoid error of sc skipping new line
 				s=sc.nextLine();
+                                System.out.println("get the constituency");
+                                c = sc.nextLine();
 				System.out.println("Get the Dob(YYYY/MM/DD)");
 				String dob = sc.nextLine();
 				String[] date=dob.split("/",3);
@@ -49,12 +51,10 @@ class NewVoter{
                       count++;
                       continue;
                 }
-				Voter v = new Voter(uid,s,g);
-				String output = v.getVoterId()+ " " + s + " " + dob ;
+				Voter v = new Voter(uid,s,g,c);
+				String output = v.getVoterId()+ " " + s + " " + dob +" "+c;
 				out.write(output);
 				out.write("\n");
-				//voter id not written now!!
-/* gets 2 strings at a time */
 				++count;
 			}
 		}

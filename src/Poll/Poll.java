@@ -9,7 +9,7 @@ JUST INCLUDED SAMPLE OUTLINE
 java src.Poll
 
 */
-package poll;
+package src.Poll;
 import java.util.Scanner;
 
 

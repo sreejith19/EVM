@@ -10,12 +10,13 @@ import java.io.IOException;
  */
 public class Validity {
     public static boolean partyPlace(String[] w,String[] list){
+        System.out.println("i am here!");
         //diff candidate with same party and cons are not allowed
         //System.out.println(w.length);
         return !(w[w.length-3].equals(list[1]) && w[w.length-2].equals(list[2]));
         }
     public static boolean candidateParty(String[] w,String[] list){
-        return ((w[w.length-2].equals(list[2]) && w[0].equals(list[0]))||
+        return (w[w.length-2].equals(list[2]) && w[0].equals(list[0])||
                 !w[0].equals(list[0]));
     }
     public static int valid(String[] list) throws IOException{
@@ -23,12 +24,15 @@ public class Validity {
         BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\Tapan\\Documents\\NetBeansProjects\\EVM\\src\\candidate.txt"));
         String line;
         int valid=1;
+        //cid cons party passed here
         while((line=br.readLine())!=null){
             //System.out.println(line);
             String[] w = line.split(" ",6);
             //System.out.println(w[0]);
             //should check all lines whether new candidate list is valid
-            if(!(partyPlace(w,list) && candidateParty(w,list)))
+            //System.out.println(partyPlace(w,list));
+            //System.out.println(candidateParty(w,list));
+            if(!((partyPlace(w,list)) && (candidateParty(w,list))))
                 valid=0;
         }
         return valid;

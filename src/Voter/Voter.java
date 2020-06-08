@@ -13,6 +13,7 @@ public class Voter
     private long uid;
     private String voter_id;
     private String name;
+    private String constituency;
     private GregorianCalendar dob;
     public Voter(){
         setVoterId();
@@ -21,14 +22,17 @@ public class Voter
         this();
         this.uid=uid;
     }
-    public Voter(long uid , String name ,GregorianCalendar dob)  //not preferred
+    public Voter(long uid , String name ,GregorianCalendar dob,String cons)  //not preferred
     {
         this();
         setName(name);
         setDob(dob);
         setUid(uid);
+        setCons(cons);
     }
-    
+    public void setCons(String cons){
+        this.constituency = cons;
+    }
     public void setName(String name)
     {
         this.name=name;
@@ -44,7 +48,7 @@ public class Voter
         this.uid=uid;
     }
     
-    private void setVoterId()       // similar update function required for the decrement in case of repetition of uid
+    private void setVoterId()      
     { 
         int x;
         voter_id=getCounter();
@@ -140,6 +144,9 @@ public class Voter
    {
        return dob;
    }
+    public String getCons(){
+        return constituency;
+    }
     public String getVoterId()
    {
        return voter_id;
@@ -151,5 +158,3 @@ public class Voter
         System.out.print("v2:"+v2.getVoterId());
     }*/
 }
-
-//if this does not work try including a demo class with main to create classfile; note: given class is also public 
