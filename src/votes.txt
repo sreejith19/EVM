@@ -1,0 +1,3 @@
+AAA0000000 tkm
+AAA0000001 tkm
+Invalidtkm

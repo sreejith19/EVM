@@ -1,76 +1,185 @@
-/*
-This is used to store the polling percentage of each elections
-and for polling each candidate
-THIS IS JUST A BOILERPLATE PROGRAM NOT EXACT ONE
-JUST INCLUDED SAMPLE OUTLINE
-*/
-
-/* Compile using javac -d . Poll.java
-java src.Poll
-
-*/
 package poll;
+
+import java.io.BufferedReader;
 import java.util.Scanner;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.String;
 
-//Note:The Display functions are to be incorporated in frontend ,the below code is sample software only
+/**
+ * Poll
+ */
+public class Poll {
 
-//Sample Boilerplate Class for testing
-// import Candidate.Candidate;
-
-public class Poll{
-	public static int no_of_voters;
-	public static void incr_voters(){  //should be available across packages
-		 ++no_of_voters;
+	public String constituency;
+	private StringBuffer sb=new StringBuffer("");
+	private int candidateCount=0;
+	
+	public Poll(String constituency)
+	{
+		this.constituency=constituency;
+		boolean valid = Valid.validCons(constituency);
+		if(!valid)
+		{
+			System.out.println("Invalid constituency!!!");
+			return;
+		}
+		System.out.println("Valid");
+		String candidates=getCandidates();
+		//System.out.println(candidates);
+		vote(candidates, constituency);
 	}
 
-	public static void main(String[] args) {
-		System.out.println("Welcome to Online Voting Portal,Stay Home Stay Safe");
-		/* Verification of voters details are done in another program
-		Only then they are allowed to access this application */
+	private String getCandidates()
+	{
+		StringBuffer str=new StringBuffer("");
+		String x;
+		try{
+			BufferedReader br=new BufferedReader(new FileReader("candidate.txt"));
+			while((x=br.readLine())!=null)
+			{
+				String s[]=x.split(" ",5);		//temp change
+				//System.out.println(s[s.length-2]);
+				if((s[s.length-2]).equals(constituency))
+				{
+					str.append(s[0]+" ");
+					sb.append(++candidateCount);
+					sb.append(" ");
+					for(int i=1;i<s.length;i++)
+					{
+						if(i==s.length-2)
+							continue;
+						sb.append(s[i]+" ");
+					}
+					sb.append("\n");
+				}
+			}
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		return new String(str);
+	}
 
-		/* Simailarly,details of verified candidates are allowed to publish */
-		/*It is advised to be included in another program */
-
-		System.out.println("Cast Your Vote");
-		/* Displaying the details of the candidates */
-		/*Now just sample */
-
-		String[] cnames = {"Tapan Manu","Sreejith A","Sujith VI","NOTA"};
-		int[] votes = {0,0,0,0};
-
-		/* Here ,instead storing names as strings create a candidate object corresponding that */
-
-
-		for (int i= 0;i<cnames.length;i++)
-			System.out.println((i+1)+". "+cnames[i]);
-
-		/* Better this program should be called by another running program in which each of the user gets a chance to increment
-		his/her vote. We can use multithreaded programming also to achieve concurrency in polling */
-
-		Scanner sc = new Scanner(System.in);
-
-		//Loop to test for multiple voting
-
-		for(int j=0;j<5;j++){
-		incr_voters();
-		int cast = sc.nextInt();
-		/* I repeat,this is not the correct procedure candidate object should have votes attribute
-		 and it should be increased */
-		if(cast<=cnames.length)
-			votes[cast-1]+=1;
-		else{
-			System.out.println("Invalid polling,Chance Over");
-			votes[cnames.length-1]+=1;
+	private boolean vote(String c, String constituency)
+	{
+		String key="abcd";
+		char ch='y';
+		Scanner sc=new Scanner(System.in);
+		String candidates[]=c.split(" ");
+		BufferedReader br,br2;
+		String line;
+		String voterID;
+		int vote;
+		try{
+			br= new BufferedReader(new FileReader("voter.txt"));	//votes received
+			br2= new BufferedReader(new FileReader("polled.txt"));	//voters who already committed
+		
+			do
+			{
+				System.out.println("Enter your Voter Id : ");
+				voterID=sc.nextLine();
+				System.out.println(voterID);
+				while((line=br2.readLine())!=null)
+				{
+					if(line.equals(voterID))
+					{
+						System.out.println("Already voted");
+						return false;
+					}
+				}
+				while((line=br.readLine())!=null)
+				{
+					String v[]=line.split(" ");
+					if(v[0].equals(voterID))
+						if(v[v.length-1].equals(constituency))
+							break;
+						else
+						{
+							System.out.println("Constituency mismatch");
+							return false;
+						}
+				}
+				if(line==null)
+				{
+					System.out.println("Voter not found");
+					return false;
+				}
+				System.out.println(" "+constituency+" \n\n\tEnter your vote(1-"+candidateCount+") :\n");
+				System.out.println(sb);
+				vote=sc.nextInt();
+				fileWrite(vote,candidates);
+				addVoter(voterID);
+				sc.nextLine();
+				System.out.println("anymore voters? : ");
+				ch=sc.nextLine().charAt(0);
+				if(ch=='n')
+				{
+					System.out.print("Enter password : ");
+					if(!(sc.nextLine().equals(key)))
+					{
+						ch='y';
+					}
+				}
+			}while(ch!='n');
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		finally{
+			return true;
+		}
+	}
+	private void addVoter(String v)
+	{
+		FileWriter fw;
+		try{
+			fw=new FileWriter("polled.txt",true);
+			fw.write(v);
+			fw.write("\n");
+			fw.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	private void fileWrite(int vote,String id[])
+	{
+		FileWriter fw;
+		try{
+			fw=new FileWriter("votes.txt",true);
+			fw.write(id[vote-1]);
+			fw.write(" "+constituency+"\n");
+			fw.close();
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			try{
+				fw=new FileWriter("votes.txt",true);
+				fw.write("Invalid "+constituency+"\n");
+				fw.close();
+			}
+			catch(IOException h)
+			{
+				h.printStackTrace();
+			}
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
 		}
 	}
 
-	/* Real time status after voting  by 5 people */
-		System.out.println("No of voters:"+no_of_voters);
-		for (int i=0;i<cnames.length;i++)
-			System.out.println(cnames[i]+"  "+votes[i]);
-
-		/* Store the result to database */
-
-	}
+	public static void main(String args[])
+		{
+			System.out.print("Enter constituency:  ");
+			Scanner sc=new Scanner(System.in);
+			new Poll(sc.nextLine());
+			//System.out.println("hello");
+		}
 }
